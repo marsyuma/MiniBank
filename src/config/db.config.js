@@ -1,14 +1,14 @@
-const {Pool} = require('pg');
+const { Pool } = require('pg');
 const dotenv = require('dotenv');
 
 dotenv.config();
 
-const pool = new Pool({
-  host: process.env.DB_HOST,
-  database: process.env.DB_DATABASE,
-  user: process.env.DB_USER,
-  password: process.env.DB_PASSWORD,
-  port: process.env.DB_PORT,
+const db = new Pool({
+  host: 'ep-calm-pond-394042.ap-southeast-1.aws.neon.tech',
+  database: 'minibank',
+  user: 'bintang.marsyuma.bm',
+  password: 'g09KoXHkQBbO',
+  port: '5432',
   ssl: {
     rejectUnauthorized: false,
     sslmode: 'require',
@@ -18,7 +18,7 @@ const pool = new Pool({
 // Test the database connection
 async function testDatabaseConnection() {
   try {
-    const client = await pool.connect();
+    const client = await db.connect();
     console.log('Connected to the database');
     client.release();
   } catch (error) {
@@ -28,5 +28,5 @@ async function testDatabaseConnection() {
 
 module.exports = {
   testDatabaseConnection,
-  pool,
+  db,
 };

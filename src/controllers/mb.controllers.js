@@ -3,7 +3,7 @@ const db = require('../models/models');
 // Get data from the 'nasabah' table
 async function getDataNasabah(req, res) {
   try {
-    const data = await models.getDataNasabah();
+    const data = await db.getDataNasabah();
     res.send(data);
   } catch (err) {
     console.log(err);
@@ -12,9 +12,9 @@ async function getDataNasabah(req, res) {
 }
 
 // Get data from the 'transactions' table
-async function getTransaksi(req, res) {
+async function getTransaksibyId(req, res) {
   try {
-    const data = await models.getTransaksi();
+    const data = await db.getTransaksibyId(req.body.user_id); // Pass the user_id from request parameters
     res.send(data);
   } catch (err) {
     console.log(err);
@@ -22,12 +22,13 @@ async function getTransaksi(req, res) {
   }
 }
 
+
 // Insert data into the 'nasabah' table
-async function insertData(req, res) {
+async function tambahNasabah(req, res) {
   try {
     const { user_id, name, address, phonenumber, balance, job } = req.body;
-    await models.insertData({ user_id, name, address, phonenumber, balance, job });
-    res.send('Insert Berhasil');
+    await db.tambahNasabah({ user_id, name, address, phonenumber, balance, job });
+    res.send('Data Nasabah Berhasil Ditambahkan');
   } catch (err) {
     console.log(err);
     res.status(500).send('Internal Server Error');
@@ -38,8 +39,22 @@ async function insertData(req, res) {
 async function transferFunds(req, res) {
   try {
     const { sender_id, recipient_id, amount } = req.body;
-    await models.transferFunds({ sender_id, recipient_id, amount });
+    await db.transferFunds({ sender_id, recipient_id, amount });
     res.send(`Successfully transferred ${amount} balance from user_id ${sender_id} to user_id ${recipient_id}`);
+  } catch (err) {
+    console.log(err);
+    res.status(500).send('Internal Server Error');
+  }
+}
+
+async function withdrawFunds(req, res) {
+  try {
+    const { user_id, amount } = req.body;
+
+    // Perform withdrawal operation
+    await db.withdrawFunds(user_id, amount);
+
+    res.send(`Successfully withdrew ${amount} from user_id ${user_id}`);
   } catch (err) {
     console.log(err);
     res.status(500).send('Internal Server Error');
@@ -48,7 +63,8 @@ async function transferFunds(req, res) {
 
 module.exports = {
   getDataNasabah,
-  getTransaksi,
-  insertData,
+  getTransaksibyId,
+  tambahNasabah,
   transferFunds,
+  withdrawFunds
 };
