@@ -107,6 +107,9 @@ public class UserLoginActivity extends AppCompatActivity {
             public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {
                 if (response.isSuccessful()) {
                     Toast.makeText(Content, "Backend Connection Successful", Toast.LENGTH_SHORT).show();
+                    Intent intent = new Intent(Content, UserHomeActivity.class);
+                    startActivity(intent);
+
                 } else {
                     Toast.makeText(Content, "Backend Connection Failed", Toast.LENGTH_SHORT).show();
                 }

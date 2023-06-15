@@ -27,6 +27,6 @@ public interface BaseApiService {
     Call<ResponseBody> requestLogin(@Field("username") String username, @Field("password") String password);
 
     @FormUrlEncoded
-    @GET ("/hello")
+    @GET ("hello")
     Call<ResponseBody> testConnection();
 }
