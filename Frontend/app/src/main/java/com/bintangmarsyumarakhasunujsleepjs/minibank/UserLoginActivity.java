@@ -105,15 +105,20 @@ public class UserLoginActivity extends AppCompatActivity {
         userService.testConnection().enqueue(new Callback<ResponseBody>() {
             @Override
             public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {
-                if (response.isSuccessful()) {
-                    Toast.makeText(Content, "Backend Connection Successful", Toast.LENGTH_SHORT).show();
-                    Intent intent = new Intent(Content, UserHomeActivity.class);
-                    startActivity(intent);
-
-                } else {
-                    Toast.makeText(Content, "Backend Connection Failed", Toast.LENGTH_SHORT).show();
+                try {
+                            JSONObject jsonRESULTS = new JSONObject(response.body().string());
+                            if (jsonRESULTS.getString("status").equals("true")) {
+                                Toast.makeText(Content, "Connection Success", Toast.LENGTH_SHORT).show();
+                                Intent intent = new Intent(Content, MainActivity.class);
+                                startActivity(intent);
+                            } else {
+                                String error_message = jsonRESULTS.getString("status");
+                                Toast.makeText(Content, error_message, Toast.LENGTH_SHORT).show();
+                            }
+                        } catch (JSONException | IOException e) {
+                            e.printStackTrace();
+                        }
                 }
-            }
 
             @Override
             public void onFailure(Call<ResponseBody> call, Throwable t) {
