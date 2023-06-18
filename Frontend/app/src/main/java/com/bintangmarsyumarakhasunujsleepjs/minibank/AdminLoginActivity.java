@@ -24,12 +24,14 @@ import org.json.JSONObject;
 
 import java.io.IOException;
 
+import com.bintangmarsyumarakhasunujsleepjs.minibank.request.BaseApiService;
+
 import okhttp3.ResponseBody;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 
-public class UserLoginActivity extends AppCompatActivity {
+public class AdminLoginActivity extends AppCompatActivity{
     Button loginButton, backButton;
     EditText username, userPassword;
 
@@ -41,14 +43,14 @@ public class UserLoginActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        Content = this;
-        setContentView(R.layout.activity_user_login);
-
+        setContentView(R.layout.activity_admin_login);
         userService = UtilsApi.getAPIService();
-        backButton = findViewById(R.id.buttonBack);
-        loginButton = findViewById(R.id.buttonLoginUser);
-        username = findViewById(R.id.editTextUsername);
-        userPassword = findViewById(R.id.editTextPassword);
+        Content = this;
+        backButton = findViewById(R.id.buttonBackAdmin);
+        loginButton = findViewById(R.id.buttonLoginAdmin);
+        username = findViewById(R.id.editTextAdmin);
+        userPassword = findViewById(R.id.editTextPasswordAdmin);
+
 
         backButton.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -61,25 +63,26 @@ public class UserLoginActivity extends AppCompatActivity {
         loginButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if(username.getText().toString().isEmpty() || userPassword.getText().toString().isEmpty()) {
+                if (username.getText().toString().isEmpty() || userPassword.getText().toString().isEmpty()) {
                     Toast.makeText(Content, "Please fill all fields", Toast.LENGTH_SHORT).show();
-                }else {
+                } else {
                     usernamePars = username.getText().toString();
                     userPasswordPars = userPassword.getText().toString();
-                    requestLogin();
+                    requestLoginAdmin();
 
                 }
+
             }
         });
     }
 
-    void requestLogin() {
-        userService.requestLogin(usernamePars, userPasswordPars).enqueue(new Callback<ResponseBody>() {
+    void requestLoginAdmin(){
+        userService.requestLoginAdmin(usernamePars, userPasswordPars).enqueue(new Callback<ResponseBody>() {
             @Override
             public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {
                 if (response.isSuccessful()) {
                     Toast.makeText(Content, "Login Success", Toast.LENGTH_SHORT).show();
-                    Intent intent = new Intent(Content, UserHomeActivity.class);
+                    Intent intent = new Intent(Content, AdminHomeActivity.class);
                     startActivity(intent);
                 } else {
                     Toast.makeText(Content, "Login Failed", Toast.LENGTH_SHORT).show();

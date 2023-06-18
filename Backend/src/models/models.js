@@ -14,7 +14,7 @@ async function loginAdmin(username, password, req, res) {
     // Create session and store user data
     req.session.user = user;
     console.log(req.session.user);
-    res.send('Admin logged in successfully');
+    res.status(200).send('Admin logged in successfully');
   } catch (err) {
     console.error(err);
     res.status(404).send('Invalid username or password');
@@ -35,7 +35,7 @@ async function loginUser(username, password, req, res) {
     // Create session and store user data
     req.session.user = user;
     console.log(req.session.user);
-    res.send('success');
+    res.status(200).send('User logged in successfully');
   } catch (err) {
     console.error(err);
     res.status(404).send('Invalid username or password');
@@ -46,12 +46,12 @@ async function loginUser(username, password, req, res) {
 
 // Insert data into the 'nasabah' table
 async function tambahNasabah(data) {
-  const { user_id, name, address, phonenumber, balance, job, email, password } = data;
+  const { user_id, name, address, phonenumber, balance, job, username, email, password } = data;
   const query = `
-    INSERT INTO nasabah (user_id, name, address, phonenumber, balance, job, email, password)
-    VALUES ($1, $2, $3, $4, $5, $6, $7, $8)
+    INSERT INTO nasabah (user_id, name, address, phonenumber, balance, job, username, email, password)
+    VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9)
   `;
-  const values = [user_id, name, address, phonenumber, balance, job, email, password];
+  const values = [user_id, name, address, phonenumber, balance, job, username, email, password];
 
   try {
     await db.query(query, values);
@@ -66,7 +66,10 @@ async function getDataNasabah() {
   try {
     const query = 'SELECT * FROM nasabah';
     const results = await db.query(query);
-    return results.rows;
+    return {
+      message: "Nasabah Found",
+      getDataNasabah : results.rows
+    }
   } catch (err) {
     console.log(err);
     throw err;
@@ -78,7 +81,10 @@ async function getAllTransaksi() {
   try {
     const query = 'SELECT * FROM transactions';
     const results = await db.query(query);
-    return results.rows;
+    return {
+      message: "Transaksi Found",
+      getAllTransaksi : results.rows
+    }
   } catch (err) {
     console.log(err);
     throw err;
@@ -92,7 +98,10 @@ async function getTransaksibyId(user_id){
     const query = 'SELECT * FROM transactions WHERE sender_id = $1 OR recipient_id = $1';
     const values = [user_id];
     const results = await db.query(query, values);
-    return results.rows;
+    return {
+      message: "Transaksi Found",
+      getTransaksibyId : results.rows
+    }
   } catch (err) {
     console.log(err);
     throw err;
@@ -140,31 +149,21 @@ async function transferFunds(data) {
   }
 }
 
-async function withdrawFunds(user_id, amount) {
+async function withdrawFunds(data) {
+   const { sender_id, recipient_id, amount, transaction_type } = data;
   try {
     const client = await db.connect();
     try {
       await client.query('BEGIN');
 
-      const checkUserQuery = 'SELECT * FROM nasabah WHERE user_id = $1';
-      const checkUserValues = [user_id];
-      const userResult = await client.query(checkUserQuery, checkUserValues);
-      const user = userResult.rows[0];
+      // Update sender's balance
+      const updateSenderQuery = 'UPDATE nasabah SET balance = balance - $1 WHERE user_id = $2';
+      const updateSenderValues = [amount, sender_id];
+      await client.query(updateSenderQuery, updateSenderValues);
 
-      if (!user) {
-        throw new Error('User not found');
-      }
-      user.balance = parseInt(user.balance);
-      if (user.balance < amount) {
-        throw new Error('Insufficient balance');
-      }
-
-      const updateBalanceQuery = 'UPDATE nasabah SET balance = balance - $1 WHERE user_id = $2';
-      const updateBalanceValues = [amount, user_id];
-      await client.query(updateBalanceQuery, updateBalanceValues);
-
-      const insertTransactionQuery = 'INSERT INTO transactions (sender_id, recipient_id, amount) VALUES ($1, $2, $3)';
-      const insertTransactionValues = [user_id, null, amount];
+      // Insert transaction
+      const insertTransactionQuery = 'INSERT INTO transactions (sender_id, recipient_id, amount, transaction_type) VALUES ($1, $2, $3, $4)';
+      const insertTransactionValues = [sender_id, recipient_id, amount, transaction_type];
       await client.query(insertTransactionQuery, insertTransactionValues);
 
       await client.query('COMMIT');
@@ -179,6 +178,8 @@ async function withdrawFunds(user_id, amount) {
     throw err;
   }
 }
+
+
 
 // Deposit funds to 'nasabah' and update 'transactions'
 async function depositFunds(user_id, amount, transaction_type) {

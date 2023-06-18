@@ -1,6 +1,7 @@
 package com.bintangmarsyumarakhasunujsleepjs.minibank;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.app.AppCompatActivity;
 
 import android.app.ProgressDialog;
 import android.content.Context;
@@ -17,81 +18,85 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.bintangmarsyumarakhasunujsleepjs.minibank.request.BaseApiService;
+import com.bintangmarsyumarakhasunujsleepjs.minibank.request.RetrofitClient;
 import com.bintangmarsyumarakhasunujsleepjs.minibank.request.UtilsApi;
 
 import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.io.IOException;
+import java.math.BigInteger;
 
 import okhttp3.ResponseBody;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 
-public class UserLoginActivity extends AppCompatActivity {
-    Button loginButton, backButton;
-    EditText username, userPassword;
-
-    Context Content;
+public class UserWIthdrawActivity extends AppCompatActivity {
+    UserWIthdrawActivity Content;
     BaseApiService userService;
-    public static String usernamePars;
-    public static String userPasswordPars;
+
+    Button withdrawButton, backButton;
+    EditText amount;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         Content = this;
-        setContentView(R.layout.activity_user_login);
+        setContentView(R.layout.activity_user_withdraw);
 
         userService = UtilsApi.getAPIService();
         backButton = findViewById(R.id.buttonBack);
-        loginButton = findViewById(R.id.buttonLoginUser);
-        username = findViewById(R.id.editTextUsername);
-        userPassword = findViewById(R.id.editTextPassword);
+        withdrawButton = findViewById(R.id.buttonWithdraw);
+        amount = findViewById(R.id.editTextAmount);
 
         backButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(Content, MainActivity.class);
+                Intent intent = new Intent(Content, UserHomeActivity.class);
                 startActivity(intent);
             }
         });
 
-        loginButton.setOnClickListener(new View.OnClickListener() {
+        withdrawButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if(username.getText().toString().isEmpty() || userPassword.getText().toString().isEmpty()) {
-                    Toast.makeText(Content, "Please fill all fields", Toast.LENGTH_SHORT).show();
-                }else {
-                    usernamePars = username.getText().toString();
-                    userPasswordPars = userPassword.getText().toString();
-                    requestLogin();
-
+                String Amount = amount.getText().toString();
+                if (Amount.isEmpty()) {
+                    Toast.makeText(Content, "Please fill the amount", Toast.LENGTH_SHORT).show();
+                } else {
+                    withdraw();
                 }
             }
         });
+
+
+
     }
 
-    void requestLogin() {
-        userService.requestLogin(usernamePars, userPasswordPars).enqueue(new Callback<ResponseBody>() {
+    private void withdraw() {
+        final ProgressDialog progressDialog = new ProgressDialog(Content);
+        progressDialog.setMessage("Loading...");
+        progressDialog.show();
+
+        BigInteger Amount = new BigInteger(amount.getText().toString());
+        userService.requestWithdraw(Amount).enqueue(new Callback<ResponseBody>() {
             @Override
             public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {
                 if (response.isSuccessful()) {
-                    Toast.makeText(Content, "Login Success", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(UserWIthdrawActivity.this, "Withdraw Success", Toast.LENGTH_SHORT).show();
                     Intent intent = new Intent(Content, UserHomeActivity.class);
                     startActivity(intent);
                 } else {
-                    Toast.makeText(Content, "Login Failed", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(Content, "Transfer failed", Toast.LENGTH_SHORT).show();
                 }
             }
 
             @Override
             public void onFailure(Call<ResponseBody> call, Throwable t) {
-                Toast.makeText(Content, "Internet Connection Problem", Toast.LENGTH_SHORT).show();
-                t.printStackTrace();
+                progressDialog.hide();
+                Toast.makeText(Content, "Connection error", Toast.LENGTH_SHORT).show();
             }
         });
     }
 }
-

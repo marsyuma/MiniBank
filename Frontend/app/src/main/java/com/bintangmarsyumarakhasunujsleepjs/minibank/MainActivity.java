@@ -34,13 +34,13 @@ public class MainActivity extends AppCompatActivity {
         });
 
         // Set click listener for the login as admin text
-//        loginAsAdminText.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View v) {
-//                // Handle admin login
-//                Intent intent = new Intent(MainActivity.this, AdminLoginActivity.class);
-//                startActivity(intent);
-//            }
-//        });
+        loginAsAdminText.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                // Handle admin login
+                Intent intent = new Intent(MainActivity.this, AdminLoginActivity.class);
+                startActivity(intent);
+            }
+        });
     }
 }

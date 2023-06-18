@@ -4,11 +4,6 @@ const db = require('../models/models');
 const mbController = require('../controllers/mb.controllers');
 
 // Make / route if hit will return 'Hello World'
-router.get('/hello', (req, res) => {
-    console.log('Hello World');
-    res.send('Hello World');
-
-});
 
 
 // Admin Route
@@ -23,11 +18,10 @@ router.post('/user/login', mbController.loginUser);
 router.get('/user/history', mbController.getTransaksibyId);
 
 // Logout
-router.get('/logout', mbController.logout);
+router.post('/logout', mbController.logout);
 
 
 router.post('/transaction/transfer', mbController.transferFunds);
 router.post('/transaction/withdraw', mbController.withdrawFunds);
-
 
 module.exports = router;

@@ -2,72 +2,70 @@ package com.bintangmarsyumarakhasunujsleepjs.minibank;
 
 import androidx.appcompat.app.AppCompatActivity;
 
-import android.app.ProgressDialog;
-import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.View;
 import android.widget.Button;
-import android.widget.EditText;
-import android.view.View;
-
-import android.widget.ImageView;
-import android.widget.TextView;
 import android.widget.Toast;
 
 import com.bintangmarsyumarakhasunujsleepjs.minibank.request.BaseApiService;
 import com.bintangmarsyumarakhasunujsleepjs.minibank.request.UtilsApi;
 
-import org.json.JSONException;
-import org.json.JSONObject;
-
-import java.io.IOException;
-import java.net.CookieHandler;
-
-import okhttp3.Cookie;
 import okhttp3.ResponseBody;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 
-
-public class UserHomeActivity extends AppCompatActivity {
-    Button transferButton, withdrawButton;
-
-    UserHomeActivity Content;
+public class AdminHomeActivity extends AppCompatActivity {
+    Button tambahNasabah, deposit, transaksi, nasabah;
+    AdminHomeActivity Content;
     BaseApiService userService;
-//    public static String usernamePars;
-
 
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         Content = this;
-        setContentView(R.layout.activity_user_home);
+        setContentView(R.layout.activity_admin_home);
 
         userService = UtilsApi.getAPIService();
-        transferButton = findViewById(R.id.buttonTransfer);
-        withdrawButton = findViewById(R.id.buttonWithdraw);
 
-        transferButton.setOnClickListener(new View.OnClickListener() {
+        tambahNasabah = findViewById(R.id.buttonTambahNasabah);
+        deposit = findViewById(R.id.buttonDepositNasabah);
+        transaksi = findViewById(R.id.buttonDataTransaksi);
+        nasabah = findViewById(R.id.buttonDataNasabah);
+
+        tambahNasabah.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(Content, UserTransferActivity.class);
+                Intent intent = new Intent(Content, AdminAddNasabahActivity.class);
                 startActivity(intent);
             }
         });
 
-        withdrawButton.setOnClickListener(new View.OnClickListener() {
+        deposit.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(Content, UserWIthdrawActivity.class);
+                Intent intent = new Intent(Content, AdminDepositActivity.class);
                 startActivity(intent);
             }
         });
 
+        nasabah.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(Content, AdminDataNasabahActivity.class);
+                startActivity(intent);
+            }
+        });
 
+        transaksi.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(Content, AdminDataTransaksiActivity.class);
+                startActivity(intent);
+            }
+        });
     }
 
     @Override
@@ -81,10 +79,6 @@ public class UserHomeActivity extends AppCompatActivity {
         switch (item.getItemId()) {
             case R.id.action_logout:
                 logout();
-                return true;
-            case R.id.history:
-                Intent intent = new Intent(Content, UserHistoryActivity.class);
-                startActivity(intent);
                 return true;
             default:
                 return super.onOptionsItemSelected(item);

@@ -17,6 +17,7 @@
         android:theme="@style/Theme.MiniBank"
         tools:targetApi="33">
 
+
         <activity
             android:name=".MainActivity"
             android:exported="true">
@@ -28,6 +29,45 @@
 
         <activity
             android:name=".UserLoginActivity"
+            android:exported="false">
+        </activity>
+
+        <activity android:name=".UserHomeActivity"
+            android:exported="false">
+        </activity>
+
+        <activity android:name=".AdminLoginActivity"
+            android:exported="false">
+        </activity>
+
+        <activity android:name=".UserTransferActivity"
+            android:exported="false">
+        </activity>
+        <activity android:name=".AdminHomeActivity"
+            android:exported="false">
+        </activity>
+
+        <activity android:name=".AdminAddNasabahActivity"
+            android:exported="false">
+        </activity>
+
+        <activity android:name=".UserWIthdrawActivity"
+            android:exported="false">
+        </activity>
+
+        <activity android:name=".AdminDepositActivity"
+            android:exported="false">
+        </activity>
+
+        <activity android:name=".AdminDataNasabahActivity"
+            android:exported="false">
+        </activity>
+
+        <activity android:name=".AdminDataTransaksiActivity"
+            android:exported="false">
+        </activity>
+
+        <activity android:name=".UserHistoryActivity"
             android:exported="false">
         </activity>
     </application>

@@ -40,11 +40,11 @@ async function logout(req, res) {
 // Insert data into the 'nasabah' table
 async function tambahNasabah(req, res) {
   try {
-    if(role_id != 1){
+    if(req.session.user.role_id != 1){
       throw { statusCode: 403, message: 'Forbidden' };
     }
-    const { user_id, name, address, phonenumber, balance, job, email, password } = req.body;
-    await db.tambahNasabah({ user_id, name, address, phonenumber, balance, job, email, password });
+    const { user_id, name, address, phonenumber, balance, username, job, email, password } = req.body;
+    await db.tambahNasabah({ user_id, name, address, phonenumber, balance, username, job, email, password });
     res.send('Data Nasabah Berhasil Ditambahkan');
   } catch (err) {
     console.log(err);
@@ -108,8 +108,12 @@ async function transferFunds(req, res) {
   const sender_id = req.session.user.user_id;
   try {
     const { recipient_id, amount } = req.body;
+    if (amount > req.session.user.balance) {
+      throw { statusCode: 400, message: 'Insufficient balance' };
+    }
     await db.transferFunds({ sender_id, recipient_id, amount, transaction_type });
     res.send(`Successfully transferred ${amount} balance from user_id ${sender_id} to user_id ${recipient_id}`);
+    console.log(`Successfully transferred ${amount} balance from user_id ${sender_id} to user_id ${recipient_id}`);
   } catch (err) {
     console.log(err);
     res.status(500).send('Internal Server Error');
@@ -120,16 +124,16 @@ async function transferFunds(req, res) {
 async function withdrawFunds(req, res) {
   const transaction_type = 3; // 3 for withdraw
   const sender_id = req.session.user.user_id;
+  const recipient_id = null;
   try {
     const { amount } = req.body;
-    await db.withdrawFunds({ sender_id, amount, transaction_type });
+    await db.withdrawFunds({ sender_id, recipient_id, amount, transaction_type });
     res.send(`Successfully withdrew ${amount} from user_id ${sender_id}`);
   } catch (err) {
     console.log(err);
     res.status(500).send('Internal Server Error');
   }
 }
-
 
 // Deposit funds into 'nasabah' and update 'transactions'
 async function depositFunds(req, res) {

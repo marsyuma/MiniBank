@@ -6,57 +6,42 @@
     android:layout_height="match_parent">
 
     <EditText
-        android:id="@+id/editTextAdmin"
-        android:layout_width="200dp"
+        android:id="@+id/editTextAmount"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:hint="Admin Username"
-        android:inputType="text"
+        android:ems="10"
+        android:hint="Amount"
+        android:inputType="number"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.5"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.62" />
-
-    <EditText
-        android:id="@+id/editTextPasswordAdmin"
-        android:layout_width="200dp"
-        android:layout_height="wrap_content"
-        android:layout_below="@id/editTextAdmin"
-        android:hint="Password"
-        android:inputType="textPassword"
-        app:layout_constraintBottom_toTopOf="@+id/buttonLoginAdmin"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.5"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/editTextAdmin"
-        app:layout_constraintVertical_bias="0.22" />
+        app:layout_constraintTop_toTopOf="parent" />
 
     <Button
-        android:id="@+id/buttonLoginAdmin"
+        android:id="@+id/buttonWithdraw"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_below="@id/editTextPasswordAdmin"
-        android:text="Login"
+        android:layout_marginBottom="144dp"
+        android:text="Withdraw"
         android:backgroundTint="#CD5C5C"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.5"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.827" />
+        app:layout_constraintTop_toBottomOf="@+id/editTextAmount"
+        app:layout_constraintVertical_bias="0.417" />
 
     <Button
-        android:id="@+id/buttonBackAdmin"
+        android:id="@+id/buttonBack"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_below="@id/buttonLoginAdmin"
+        android:backgroundTint="#CD5C5C"
         android:text="Back"
-        android:backgroundTint="#CD5C5C"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.95"
+        app:layout_constraintHorizontal_bias="0.945"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.1" />
+        app:layout_constraintVertical_bias="0.023" />
 </androidx.constraintlayout.widget.ConstraintLayout>
