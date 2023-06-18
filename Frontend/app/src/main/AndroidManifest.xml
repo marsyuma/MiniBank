@@ -70,6 +70,11 @@
         <activity android:name=".UserHistoryActivity"
             android:exported="false">
         </activity>
+
+        <activity android:name=".UserProfileActivity"
+            android:exported="false">
+        </activity>
+
     </application>
 
 </manifest>

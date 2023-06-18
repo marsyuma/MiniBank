@@ -42,7 +42,21 @@ async function loginUser(username, password, req, res) {
   }
 }
 
-// Logout 
+async function getDataNasabahById(user_id) {
+  try {
+    const query = 'SELECT * FROM nasabah WHERE user_id = $1';
+    const values = [user_id];
+    const results = await db.query(query, values);
+    return {
+      message: "Nasabah Found",
+      getDataNasabahById : results.rows
+    }
+  } catch (err) {
+    console.log(err);
+    throw err;
+  }
+}
+
 
 // Insert data into the 'nasabah' table
 async function tambahNasabah(data) {
@@ -223,6 +237,7 @@ async function depositFunds(user_id, amount, transaction_type) {
 module.exports = {
   loginAdmin,
   loginUser,
+  getDataNasabahById,
   getAllTransaksi,
   getDataNasabah,
   getTransaksibyId,

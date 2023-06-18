@@ -57,4 +57,8 @@ public interface BaseApiService {
 
     @GET("user/history")
     Call<ResponseBody> requestTransaksiById();
+
+    @GET ("user/profile")
+    Call<ResponseBody> requestProfile();
 }
+

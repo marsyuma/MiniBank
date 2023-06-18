@@ -86,7 +86,12 @@ public class UserHomeActivity extends AppCompatActivity {
                 Intent intent = new Intent(Content, UserHistoryActivity.class);
                 startActivity(intent);
                 return true;
-            default:
+            case R.id.profile:
+                Intent intent2 = new Intent(Content, UserProfileActivity.class);
+                startActivity(intent2);
+                return true;
+
+                default:
                 return super.onOptionsItemSelected(item);
         }
     }

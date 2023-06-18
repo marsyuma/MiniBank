@@ -36,6 +36,18 @@ async function logout(req, res) {
   }
 }
 
+// Get data from the 'nasabah' table
+async function getDataNasabahById(req, res) {
+  const user = req.session.user.user_id;
+  try {
+    const data = await db.getDataNasabahById(user);
+    res.send(data);
+  } catch (err) {
+    console.log(err);
+    res.status(500).send('Internal Server Error');
+  }
+}
+
 
 // Insert data into the 'nasabah' table
 async function tambahNasabah(req, res) {
@@ -165,4 +177,5 @@ module.exports = {
   transferFunds,
   withdrawFunds,
   depositFunds,
+  getDataNasabahById
 };

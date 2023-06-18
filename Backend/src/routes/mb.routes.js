@@ -20,7 +20,7 @@ router.get('/user/history', mbController.getTransaksibyId);
 // Logout
 router.post('/logout', mbController.logout);
 
-
+router.get('/user/profile', mbController.getDataNasabahById);
 router.post('/transaction/transfer', mbController.transferFunds);
 router.post('/transaction/withdraw', mbController.withdrawFunds);
 
