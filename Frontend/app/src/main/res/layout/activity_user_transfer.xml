@@ -5,33 +5,30 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
-    <EditText
-        android:id="@+id/editTextTextRecipientNumber"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:ems="10"
-        android:inputType="number"
-        android:hint="Recipient Number"
+    <ImageView
+        android:id="@+id/imageView"
+        android:layout_width="289dp"
 
-        app:layout_constraintBottom_toBottomOf="parent"
+        android:layout_height="328dp"
+        android:src="@drawable/logo_mb"
+        app:layout_constraintBottom_toTopOf="@+id/editTextTextRecipientNumber"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.502"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.39" />
+        app:layout_constraintVertical_bias="1.0" />
 
     <Button
         android:id="@+id/ButtonSubmitTransfer"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Transfer"
         android:backgroundTint="@color/biasa"
+        android:text="Transfer"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.498"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/editTextAmount"
-        app:layout_constraintVertical_bias="0.176" />
+        app:layout_constraintVertical_bias="0.226" />
 
     <EditText
         android:id="@+id/editTextAmount"
@@ -48,11 +45,26 @@
         app:layout_constraintTop_toBottomOf="@+id/editTextTextRecipientNumber"
         app:layout_constraintVertical_bias="0.0" />
 
+    <EditText
+        android:id="@+id/editTextTextRecipientNumber"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:ems="10"
+        android:hint="Recipient Number"
+        android:inputType="number"
+
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.502"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.481" />
+
     <Button
         android:id="@+id/buttonBack"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Button"
+        android:text="Back"
         android:backgroundTint="@color/biasa"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
