@@ -8,7 +8,7 @@ public class UtilsApi {
     /**
      * The constant BASE_URL_API.
      */
-    public static final String BASE_URL_API = "http://192.168.1.4:3000";
+    public static final String BASE_URL_API = "http://172.20.10.3:3000";
 
     /**
      * Get api service base api service.
